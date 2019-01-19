@@ -12,7 +12,7 @@ function isTruthy {
 
 }
 
-if [[ -v "TRACE" ]] && [[ $(isTruthy "$TRACE") ]]; then
+if [[ -z "TRACE"  ]] && [[ $(isTruthy "$TRACE") ]]; then
     set -x
 fi
 
@@ -77,13 +77,13 @@ if [[ -f "$DOCKER_CONFIG" ]]; then
         fi
     fi
     CREDS="Authorization: Basic $AUTH_INFO"
-elif [[ -v "BASIC_AUTH" ]]; then
+elif [[ -z "BASIC_AUTH" ]]; then
     CREDS="Authorization: Basic $(echo -n $BASIC_AUTH|base64)"
 fi
 
 SEC_FLAG=""
 
-if [[ -v "INSECURE_REGISTRY" ]] && [[ $(isTruthy "$INSECURE_REGISTRY") ]]; then
+if [[ ${INSECURE_REGISTRY} ]] && [[ $(isTruthy "$INSECURE_REGISTRY") ]]; then
     SEC_FLAG="-k"
 fi
 
